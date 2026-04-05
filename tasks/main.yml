@@ -1,0 +1,26 @@
+---
+- name: "Just check variables"
+  debug:
+    var: ansible_facts.env.SUDO_USER
+
+- name: "Install OS packages"
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ packages_certbot }}"
+
+
+- name: Obtain a certificate (using standalone mode)
+  command: >
+    certbot certonly --standalone
+    -d {{ item }}
+    --agree-tos
+    -m {{ certbot_email }}
+    --noninteractive
+  args:
+    creates: "/etc/letsencrypt/live/{{ item }}/fullchain.pem"
+  loop: "{{ app_domains }}"
+  register: output_certbot
+  tags:
+    - certif
+    - certbot

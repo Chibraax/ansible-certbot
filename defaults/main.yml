@@ -1,0 +1,12 @@
+---
+packages_certbot:
+  - python3
+  - python3-pip
+  - git 
+  - certbot
+
+app_domains:
+  - test.com
+  - www.test.com
+
+certbot_email: contact@fap.dev
