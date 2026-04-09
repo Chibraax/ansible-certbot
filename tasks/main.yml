@@ -1,14 +1,10 @@
 ---
-- name: "Just check variables"
-  debug:
-    var: ansible_facts.env.SUDO_USER
-
 - name: "Install OS packages"
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present
   loop: "{{ packages_certbot }}"
-
+  tags: certbot
 
 - name: Obtain a certificate (using standalone mode)
   command: >
